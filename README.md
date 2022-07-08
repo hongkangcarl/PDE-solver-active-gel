@@ -35,4 +35,4 @@ Common numerical methods to solve differential equations include finite differen
 
 Compared to finite difference methods that use only the local information to compute the solution, spectral methods use the global information, and thus are more accurate than the finite difference methods.
 
-This repo contain two numerical programs to solve the active gel PDEs, one on a plane and the other one on a spherical surface, built from scratch using NumPy and SciPy. The planar case uses the Fast Fourier Transform (FFT) and the spherical case uses the Spherical Harmonic Transform (written in the SHT.py).
+This repo contain two numerical programs to solve the active gel PDEs, one on a plane and the other one on a spherical surface, built from scratch using NumPy and SciPy. The planar case uses the Fast Fourier Transform (FFT) and the spherical case uses the Spherical Harmonic Transform (written in the [SHT.py](spherical_case/SHT.py)).

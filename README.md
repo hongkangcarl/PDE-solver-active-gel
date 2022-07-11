@@ -35,7 +35,7 @@ Common numerical methods to solve differential equations include finite differen
 
 Compared to finite difference methods that use only the local information to compute the solution, spectral methods use the global information, and thus are more accurate than the finite difference methods.
 
-This repo contain two numerical programs to solve the active gel PDEs, one on a plane and the other one on a spherical surface, built from scratch using NumPy and SciPy. The planar case uses the Fast Fourier Transform (FFT) and the spherical case uses the Spherical Harmonic Transform (written in the [SHT.py](spherical_case/SHT.py)).
+This repo contains two numerical programs to solve the active gel PDEs, one on a plane and the other one on a spherical surface, built from scratch using NumPy and SciPy. The planar case uses the Fast Fourier Transform (FFT) and the spherical case uses the Spherical Harmonic Transform (written in the [SHT.py](spherical_case/SHT.py)).
 
 In the planar case, the Fourier transform of the density field reads
 
@@ -43,12 +43,24 @@ $$
 \rho(x, y) = \sum_{k,l} \rho_{k,l}\ e^{i(kx + ly)}
 $$
 
-where $k, l$ are the wave numbers along $x$ and $y$. This Fourier transform can be achieved using Fast Fourier Transform (FFT) in `numpy.fft.fft2`.
+where $k, l$ are the wave numbers along $x$ and $y$. This Fourier transform can be achieved using Fast Fourier Transform (FFT) in `numpy.fft.fft2`. The advantage of Fourier transform is that, the differential operations become linear, for example:
+
+$$
+\nabla^2 \rho = \nabla^2 \sum_{k,l} \rho_{k,l}\ e^{i(kx + ly)} = \sum_{k,l} -(k^2 + l^2) \rho_{k,l}\ e^{i(kx + ly)}
+$$
 
 In the spherical case, the spherical harmonic transforma reads
 
 $$
-\rho(\theta, \phi) = \sum_{l, m} \rho_{l, m}\ Y_l^m(\theta, \phi)
+\rho(\theta, \phi) = \sum_{l, m} \tilde\rho_{l, m}\ Y_l^m(\theta, \phi)
 $$
 
-where $Y_l^m(\theta, \phi) = N_l^m P_l^m(\cos\theta)\ e^{im\phi}$ are the spherical harmonics on the spherical surface, and $P_l^m(\theta, \phi)$ are the associated Legendre polynomials and $N_l^m$ are coefficients. Numerically, the transform of $e^{im\phi}$ part can be achieved using FFT in `numpy.fft.fft`, and then the transform of $P_l^m(\cos\theta)$ part can be achieved using the orthogonality of the associated Legendre polynomials. 
+where $Y_l^m(\theta, \phi) = N_l^m P_l^m(\cos\theta)\ e^{im\phi}$ are the spherical harmonics on the spherical surface, and $P_l^m(\theta, \phi)$ are the associated Legendre polynomials and $N_l^m$ are coefficients. Numerically, the transform of $e^{im\phi}$ part can be achieved using FFT in `numpy.fft.fft`, and then the transform of $P_l^m(\cos\theta)$ part can be achieved using the orthogonality of the associated Legendre polynomials.
+
+Similarly, doing the spherical harmonic transform also linearizes the differential operators, for example:
+
+$$
+\nabla^2 \rho(\theta, \phi) = \nabla^2 \sum_{l, m} \tilde\rho_{l, m}\ Y_l^m(\theta, \phi) = \sum_{l, m} - l(l+1)\tilde\rho_{l, m}\ Y_l^m(\theta, \phi)
+$$
+
+
